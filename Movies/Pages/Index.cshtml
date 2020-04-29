@@ -4,7 +4,7 @@
     ViewData["Title"] = "Home page";
 }
 
-<form id="movie-database">
+<form id="movie-database" method="post">
 
     <div id="search">
         <input type="text" name="SearchTerms" value="@Model.SearchTerms" />
@@ -26,7 +26,7 @@
         @foreach (String genre in MovieDatabase.Genres)
         {
             <label>
-                <input type="checkbox" name="Genres" value="@genre" />
+                <input type="checkbox" name="Genres" value="@genre" checked="@Model.Genres?.Contains(genre)"/>
                 @genre
             </label>
         }

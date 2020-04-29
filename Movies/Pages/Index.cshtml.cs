@@ -18,55 +18,66 @@ namespace Movies.Pages
         /// <summary>
         /// The current search terms 
         /// </summary>
-       
+        //[BindProperty(SupportsGet = true)]
         public string SearchTerms { get; set; }
 
         /// <summary>
         /// The filtered MPAA Ratings
         /// </summary>
-        
+        //[BindProperty(SupportsGet = true)]
         public string[] MPAARatings { get; set; }
 
         /// <summary>
         /// The filtered genres
         /// </summary>
-        
+        //[BindProperty(SupportsGet = true)]
         public string[] Genres { get; set; }
 
         /// <summary>
         /// The minimum IMDB Rating
         /// </summary>
-        
+        //[BindProperty(SupportsGet = true)]
         public double? IMDBMin { get; set; }
 
         /// <summary>
         /// The maximum IMDB Rating
         /// </summary>
-        
+        //[BindProperty(SupportsGet = true)]
         public double? IMDBMax { get; set; }
 
         /// <summary>
         /// The minimum RT Rating
         /// </summary>
-        
+        //[BindProperty(SupportsGet = true)]
         public double? RTMin { get; set; }
 
         /// <summary>
         /// The maximum RT Rating
         /// </summary>
-        
+        //[BindProperty (SupportsGet = true)]
         public double? RTMax { get; set; }
 
         /// <summary>
         /// Gets the search results for display on the page
         /// </summary>
-        public void OnGet(string SearchTerms, string[] MPAARatings, string[] Genres, double IMDBMin, double IMDBMax, double RTMax, double RTMin)
+        public void OnGet(double? IMDBMin, double? IMDBMax, double? RTMin, double? RTMax)
         {
-            // Nullable conversion workaround
             this.IMDBMin = IMDBMin;
             this.IMDBMax = IMDBMax;
-            this.RTMin = RTMin;
             this.RTMax = RTMax;
+            this.RTMin = RTMin;
+            SearchTerms = Request.Query["SearchTerms"];
+            MPAARatings = Request.Query["MPAARatings"];
+            Genres = Request.Query["Genres"];
+            Movies = MovieDatabase.Search(SearchTerms);
+            Movies = MovieDatabase.FilterByMPAARating(Movies, MPAARatings);
+            Movies = MovieDatabase.FilterByGenres(Movies, Genres);
+            Movies = MovieDatabase.FilterByIMDBRating(Movies, IMDBMin, IMDBMax);
+            Movies = MovieDatabase.FilterByRTRating(Movies, RTMin, RTMax);
+        }
+
+        public void OnPost()
+        {
             Movies = MovieDatabase.Search(SearchTerms);
             Movies = MovieDatabase.FilterByMPAARating(Movies, MPAARatings);
             Movies = MovieDatabase.FilterByGenres(Movies, Genres);
