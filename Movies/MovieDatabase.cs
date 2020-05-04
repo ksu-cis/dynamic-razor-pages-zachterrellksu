@@ -17,7 +17,7 @@ namespace Movies
 
         private static string[] genres;
 
-        private static string[]  mpaa;
+        //private static string[]  mpaa;
 
         /// <summary>
         /// Gets the movie genres represented in the database 
@@ -28,7 +28,7 @@ namespace Movies
         /// <summary>
         /// Gets the movie genres represented in the database 
         /// </summary>
-        public static string[] MPAA => mpaa;
+       //  public static string[] MPAA => mpaa;
 
 
         /// <summary>
